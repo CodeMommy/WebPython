@@ -1,6 +1,7 @@
 import LuckyPython
 import application.configuration.route
 
+
 if __name__ == "__main__":
     server = LuckyPython.Server()
     server.route = application.configuration.route.route

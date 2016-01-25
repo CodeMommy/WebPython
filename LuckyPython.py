@@ -97,3 +97,14 @@ class Application:
         self.status = Dictionary.http_status(404)
         self.header(*Dictionary.http_header("content_plain"))
         return "Not Found"
+
+
+class View:
+    def __init__(self, path):
+        import jinja2
+        environment = jinja2.Environment(loader=jinja2.FileSystemLoader(path))
+        self.environment = environment
+
+    def show_page(self, view, data):
+        template = self.environment.get_template(view)
+        return template.render(**data)
