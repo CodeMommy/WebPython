@@ -1,4 +1,10 @@
 import LuckyPython
+import application.configuration.route
 
 if __name__ == "__main__":
-    LuckyPython.Server.start('', 8000)
+    server = LuckyPython.Server()
+    server.route = application.configuration.route.route
+    server.controller_root = "application.controller"
+    server.host = ""
+    server.port = 8000
+    server.start()

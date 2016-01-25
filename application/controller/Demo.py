@@ -4,5 +4,5 @@ class Demo:
         return "Welcome!"
 
     @staticmethod
-    def test(self, name):
+    def hello(self, name):
         return "Hello {0}!".format(name)

@@ -2,16 +2,21 @@ import re
 import io
 import importlib
 import wsgiref.simple_server
-import routes
 
 
 class Server:
-    @staticmethod
-    def start(host="", port=8000):
+    def __int__(self):
+        self.route = list()
+        self.host = ""
+        self.port = 8000
+        self.controller_root = ""
+
+    def start(self):
         print("Welcome to use LuckyPython")
-        httpd = wsgiref.simple_server.make_server(host, port, Application())
-        sa = httpd.socket.getsockname()
-        print("Server Started At http://{0}:{1}/".format(*sa))
+        application = Application(self.route, self.controller_root)
+        httpd = wsgiref.simple_server.make_server(self.host, self.port, application)
+        sock_name = httpd.socket.getsockname()
+        print("Server Started At http://{0}:{1}/".format(*sock_name))
         httpd.serve_forever()
 
 
@@ -31,7 +36,9 @@ class Application:
         header["content_plain"] = ("Content-type", "text/plain")
         return header[header_name]
 
-    def __init__(self):
+    def __init__(self, routes, controller_root):
+        self.routes = routes
+        self.controller_root = controller_root
         self.status = self.response_status(200)
 
     def __call__(self, environment, start_response):
@@ -48,23 +55,23 @@ class Application:
         return return_list
 
     def route(self, environment):
-        environment_path = environment["PATH_INFO"]
-        environment_method = environment["REQUEST_METHOD"]
-        for method, pattern, name in routes.routes:
+        for method, pattern, name in self.routes:
+            environment_method = environment["REQUEST_METHOD"]
             if environment_method.upper() == method.upper():
-                names = name.split(".")
-                function_name = names.pop()
-                class_name = names.pop()
-                namespace_name = '.'.join(names)
+                environment_path = environment["PATH_INFO"]
                 match = re.match('^' + pattern + '$', environment_path)
                 if match:
-                    args = match.groups()
-                    namespace = "application.controller.{0}".format(namespace_name)
-                    module_namespace = importlib.import_module(namespace)
+                    names = name.split(".")
+                    function_name = names.pop()
+                    class_name = names.pop()
+                    namespace_name = '.'.join(names)
+                    namespace_name = "{0}.{1}".format(self.controller_root, namespace_name)
+                    module_namespace = importlib.import_module(namespace_name)
                     if hasattr(module_namespace, class_name):
                         module_class = getattr(module_namespace, class_name)
                         if hasattr(module_class, function_name):
                             module_function = getattr(module_class, function_name)
+                            args = match.groups()
                             return module_function(module_class, *args)
                         else:
                             pass
