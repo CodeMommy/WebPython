@@ -60,6 +60,10 @@ class Application:
         return_list.append(string_io.getvalue().encode("utf-8"))
         return return_list
 
+    @classmethod
+    def header(cls, name, value):
+        cls.headers.append((name, value))
+
     def route(self, environment):
         for method, pattern, name in self.routes:
             environment_method = environment["REQUEST_METHOD"]
@@ -88,10 +92,6 @@ class Application:
             else:
                 pass
         return self.page404()
-
-    @classmethod
-    def header(cls, name, value):
-        cls.headers.append((name, value))
 
     def page404(self):
         self.status = Dictionary.http_status(404)
