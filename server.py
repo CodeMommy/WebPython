@@ -8,3 +8,5 @@ if __name__ == "__main__":
     server.host = ""
     server.port = 8000
     server.start()
+else:
+    pass
