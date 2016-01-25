@@ -11,4 +11,4 @@ class Demo:
 
     @staticmethod
     def hello(self, name):
-        return "Hello {0}!".format(name)
+        return "Hello {0} !".format(name)

@@ -90,7 +90,7 @@ class Application:
             environment_method = environment["REQUEST_METHOD"]
             if environment_method.upper() == method.upper():
                 environment_path = environment["PATH_INFO"]
-                match = re.match('^' + pattern + '$', environment_path)
+                match = re.match("^" + pattern + "$", environment_path)
                 if match:
                     names = name.split(".")
                     function_name = names.pop()
