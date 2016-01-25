@@ -6,6 +6,7 @@ import importlib
 import wsgiref.simple_server
 
 
+# LuckyPython
 class LuckyPython:
     def __init__(self):
         self.vendor = "ShareAny"
@@ -14,6 +15,7 @@ class LuckyPython:
         self.website = "http://www.LuckyPython.com/"
 
 
+# Dictionary
 class Dictionary:
     @staticmethod
     def http_status(status_name):
@@ -29,6 +31,7 @@ class Dictionary:
         return header[header_name]
 
 
+# Server
 class Server:
     def __int__(self):
         self.route = list()
@@ -56,6 +59,7 @@ class Server:
         print(line)
 
 
+# Application
 class Application:
     headers = list()
 
@@ -116,6 +120,7 @@ class Application:
         return "Not Found"
 
 
+# View
 class View:
     def __init__(self, path):
         environment = jinja2.Environment(loader=jinja2.FileSystemLoader(path))
