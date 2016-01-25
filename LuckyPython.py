@@ -35,8 +35,15 @@ class Server:
 
     @staticmethod
     def welcome(sock_name):
+        import time
+        time_now = time.strftime("%Y-%m-%d %X", time.localtime())
+        line = "-------------------------------------------------------------"
+        print(line)
         print("Welcome to use LuckyPython 0.0.1")
-        print("Server Started At http://{0}:{1}/".format(*sock_name))
+        print("Get more information please visit http://www.LuckyPython.com/")
+        print(line)
+        print("{0} - Server Started At http://{1}:{2}/".format(time_now, *sock_name))
+        print(line)
 
 
 class Application:
