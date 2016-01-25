@@ -4,6 +4,21 @@ import importlib
 import wsgiref.simple_server
 
 
+class Dictionary:
+    @staticmethod
+    def http_status(status_name):
+        status = dict()
+        status[200] = "200 OK"
+        status[404] = "404 Not Found"
+        return status[status_name]
+
+    @staticmethod
+    def http_header(header_name):
+        header = dict()
+        header["content_plain"] = ("Content-type", "text/plain")
+        return header[header_name]
+
+
 class Server:
     def __int__(self):
         self.route = list()
@@ -12,34 +27,25 @@ class Server:
         self.controller_root = ""
 
     def start(self):
-        print("Welcome to use LuckyPython")
         application = Application(self.route, self.controller_root)
-        httpd = wsgiref.simple_server.make_server(self.host, self.port, application)
-        sock_name = httpd.socket.getsockname()
+        server = wsgiref.simple_server.make_server(self.host, self.port, application)
+        sock_name = server.socket.getsockname()
+        self.welcome(sock_name)
+        server.serve_forever()
+
+    @staticmethod
+    def welcome(sock_name):
+        print("Welcome to use LuckyPython")
         print("Server Started At http://{0}:{1}/".format(*sock_name))
-        httpd.serve_forever()
 
 
 class Application:
     headers = list()
 
-    @staticmethod
-    def response_status(status_name):
-        status = dict()
-        status[200] = "200 OK"
-        status[404] = "404 Not Found"
-        return status[status_name]
-
-    @staticmethod
-    def response_header(header_name):
-        header = dict()
-        header["content_plain"] = ("Content-type", "text/plain")
-        return header[header_name]
-
     def __init__(self, routes, controller_root):
         self.routes = routes
         self.controller_root = controller_root
-        self.status = self.response_status(200)
+        self.status = Dictionary.http_status(200)
 
     def __call__(self, environment, start_response):
         del self.headers[:]
@@ -88,6 +94,6 @@ class Application:
         cls.headers.append((name, value))
 
     def page404(self):
-        self.status = self.response_status(404)
-        self.header(*self.response_header("content_plain"))
+        self.status = Dictionary.http_status(404)
+        self.header(*Dictionary.http_header("content_plain"))
         return "Not Found"
