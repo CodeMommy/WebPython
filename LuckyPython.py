@@ -1,7 +1,17 @@
 import re
 import io
+import time
+import jinja2
 import importlib
 import wsgiref.simple_server
+
+
+class LuckyPython:
+    def __init__(self):
+        self.vendor = "ShareAny"
+        self.name = "LuckyPython"
+        self.version = "0.0.1"
+        self.website = "http://www.LuckyPython.com/"
 
 
 class Dictionary:
@@ -35,12 +45,12 @@ class Server:
 
     @staticmethod
     def welcome(sock_name):
-        import time
         time_now = time.strftime("%Y-%m-%d %X", time.localtime())
+        lucky_python = LuckyPython()
         line = "-------------------------------------------------------------"
         print(line)
-        print("Welcome to use LuckyPython 0.0.1")
-        print("Get more information please visit http://www.LuckyPython.com/")
+        print("Welcome to use {0} {1} by {2}".format(lucky_python.name, lucky_python.version, lucky_python.vendor))
+        print("Get more information please visit {0}".format(lucky_python.website))
         print(line)
         print("{0} - Server Started At http://{1}:{2}/".format(time_now, *sock_name))
         print(line)
@@ -108,7 +118,6 @@ class Application:
 
 class View:
     def __init__(self, path):
-        import jinja2
         environment = jinja2.Environment(loader=jinja2.FileSystemLoader(path))
         self.environment = environment
 
