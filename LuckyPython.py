@@ -27,7 +27,7 @@ class Dictionary:
     @staticmethod
     def http_header(header_name):
         header = dict()
-        header["content_plain"] = ("Content-type", "text/plain")
+        header["content_plain"] = ("Content-type", "text/plain;charset=utf-8")
         return header[header_name]
 
 
@@ -67,6 +67,7 @@ class Application:
         self.routes = routes
         self.controller_root = controller_root
         self.status = Dictionary.http_status(200)
+        self.header(*Dictionary.http_header("content_plain"))
 
     def __call__(self, environment, start_response):
         del self.headers[:]
