@@ -35,7 +35,7 @@ class Server:
 
     @staticmethod
     def welcome(sock_name):
-        print("Welcome to use LuckyPython")
+        print("Welcome to use LuckyPython 0.0.1")
         print("Server Started At http://{0}:{1}/".format(*sock_name))
 
 
