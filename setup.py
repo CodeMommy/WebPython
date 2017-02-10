@@ -1,3 +1,5 @@
+""" CodeMommy WebPython """
+
 try:
     from setuptools import setup
 except ImportError:

@@ -1,2 +1,2 @@
 route = list()
-route.append(("GET", "/", "demo.Demo.welcome"))
+route.append(('GET', '/', 'demo.Demo.welcome'))

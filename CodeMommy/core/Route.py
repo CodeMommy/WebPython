@@ -1,7 +1,10 @@
+""" CodeMommy WebPython Route """
+
 import io
 import re
 import abc
 import importlib
+
 import CodeMommy.core.Http
 
 
@@ -13,7 +16,7 @@ class Route:
         self.routes = routes
         self.controller_root = controller_root
         self.status = CodeMommy.core.Http.Http.status(200)
-        self.header(*CodeMommy.core.Http.Http.header("content_plain"))
+        self.header(*CodeMommy.core.Http.Http.header('content_plain'))
 
     def __call__(self, environment, start_response):
         del self.headers[:]
@@ -25,7 +28,7 @@ class Route:
         else:
             pass
         return_list = list()
-        return_list.append(string_io.getvalue().encode("utf-8"))
+        return_list.append(string_io.getvalue().encode('utf-8'))
         return return_list
 
     @classmethod
@@ -34,23 +37,23 @@ class Route:
 
     def route(self, environment):
         for method, pattern, name in self.routes:
-            environment_method = environment["REQUEST_METHOD"]
+            environment_method = environment['REQUEST_METHOD']
             if environment_method.upper() == method.upper():
-                environment_path = environment["PATH_INFO"]
-                match = re.match("^" + pattern + "$", environment_path)
+                environment_path = environment['PATH_INFO']
+                match = re.match('^' + pattern + '$', environment_path)
                 if match:
-                    names = name.split(".")
+                    names = name.split('.')
                     function_name = names.pop()
                     class_name = names.pop()
                     namespace_name = '.'.join(names)
-                    namespace_name = "{0}.{1}".format(self.controller_root, namespace_name)
+                    namespace_name = '{0}.{1}'.format(self.controller_root, namespace_name)
                     module_namespace = importlib.import_module(namespace_name)
                     if hasattr(module_namespace, class_name):
                         module_class = getattr(module_namespace, class_name)
                         if hasattr(module_class, function_name):
                             module_function = getattr(module_class, function_name)
                             args = match.groups()
-                            getattr(module_class, "__init__")(module_class, *args)
+                            getattr(module_class, '__init__')(module_class, *args)
                             self.status = CodeMommy.core.Http.Http.status(200)
                             return module_function(module_class, *args)
                         else:
