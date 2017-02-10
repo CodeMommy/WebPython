@@ -1,4 +1,9 @@
+import abc
+
+
 class Http:
+    __metaclass__ = abc.ABCMeta
+
     @staticmethod
     def status(status_name):
         status = dict()

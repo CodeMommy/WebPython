@@ -2,7 +2,7 @@ import abc
 import jinja2
 
 
-class Output(object):
+class Output:
     __metaclass__ = abc.ABCMeta
 
     def __init__(self, path):

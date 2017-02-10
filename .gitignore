@@ -1,2 +1,7 @@
+# IDE
 .idea/
+
+# Python Cache
 __pycache__/
+dist/
+CodeMommyWebPython.egg-info/

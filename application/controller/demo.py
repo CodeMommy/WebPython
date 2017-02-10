@@ -1,9 +1,9 @@
-import WebPython
+import CodeMommy.WebPython
 
 
 class Demo:
     def __init__(self):
-        self.output = WebPython.Output("application/view")
+        self.output = CodeMommy.WebPython.Output("application/view")
 
     def welcome(self):
         data = dict()

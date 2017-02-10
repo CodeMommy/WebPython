@@ -4,6 +4,7 @@
 
 ### 1. Install by PIP
 ```bash
+pip install CodeMommyWebPython
 pip install -r requirements.pip
 ```
 

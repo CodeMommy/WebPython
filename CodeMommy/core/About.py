@@ -1,4 +1,9 @@
+import abc
+
+
 class About:
+    __metaclass__ = abc.ABCMeta
+
     def __init__(self):
         self.vendor = "CodeMommy"
         self.name = "WebPython"

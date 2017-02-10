@@ -1,17 +1,19 @@
 import io
 import re
+import abc
 import importlib
-import WebPython
+import CodeMommy.core.Http
 
 
-class Application:
+class Route:
+    __metaclass__ = abc.ABCMeta
     headers = list()
 
     def __init__(self, routes, controller_root):
         self.routes = routes
         self.controller_root = controller_root
-        self.status = WebPython.Http.status(200)
-        self.header(*WebPython.Http.header("content_plain"))
+        self.status = CodeMommy.core.Http.Http.status(200)
+        self.header(*CodeMommy.core.Http.Http.header("content_plain"))
 
     def __call__(self, environment, start_response):
         del self.headers[:]
@@ -49,7 +51,7 @@ class Application:
                             module_function = getattr(module_class, function_name)
                             args = match.groups()
                             getattr(module_class, "__init__")(module_class, *args)
-                            self.status = WebPython.Http.status(200)
+                            self.status = CodeMommy.core.Http.Http.status(200)
                             return module_function(module_class, *args)
                         else:
                             pass
@@ -59,8 +61,5 @@ class Application:
                     pass
             else:
                 pass
-        return self.page_404()
-
-    def page_404(self):
-        self.status = WebPython.Http.status(404)
-        return "Not Found"
+        self.status = CodeMommy.core.Http.Http.status(404)
+        return self.status
