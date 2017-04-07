@@ -1,6 +1,6 @@
 # CodeMommy WebPython
 
-> CodeMommy WebPython is a light, fast, free and open source Python MVC framework.
+> Web MVC framework of light and fast
 
 Visit [CodeMommy Website](http://www.codemommy.com) or [PYPI](https://pypi.python.org/pypi/CodeMommyWebPython) to get more information.
 
